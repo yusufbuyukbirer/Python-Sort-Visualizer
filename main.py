@@ -20,8 +20,6 @@ window.geometry("1200x500")
 window.resizable(False, False)
 window.title("Sort Visualizer!")
 
-#TODO: DENEME AMAÇLI yazı
-
 # variables
 window.config(bg="#071a38")
 maxNumber = 101
