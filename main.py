@@ -26,11 +26,11 @@ window.title("Sort Visualizer!")
 window.config(bg="#071a38")
 maxNumber = 101
 numbers = []
-rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
+# rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
 
 
 # functions
-def drawData(numbers):
+def drawData(numbers, color):
     canvas.delete("all")
 
     canvas_height = 478
@@ -51,7 +51,7 @@ def drawData(numbers):
         y1 = canvas_height
 
         # creating rectangles
-        canvas.create_rectangle(x0, y0, x1, y1, fill=rectangle_colors[i])
+        canvas.create_rectangle(x0, y0, x1, y1, fill=color[i])
 
         # writing top of the rectangles
         canvas.create_text(x0, y0, anchor="sw", text=str(numbers[i]), fill="white", font=("Comic Sans MS", 10))
@@ -68,7 +68,7 @@ def generate():
     for i in range(numberLength):
         numbers.append(random.randrange(numberLength))
 
-    drawData(numbers)
+    drawData(numbers, ['#0CA8F6' for x in range(len(numbers))])
 
 
 # adjusting the algorithm speed

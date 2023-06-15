@@ -1,4 +1,6 @@
+from colors import *
 import time
+
 
 def merge(numbers, start, middle, end, drawData, timeTick):
     p = start
@@ -32,7 +34,8 @@ def mergeSort(numbers, start, end, drawData, timeTick):
 
         merge(numbers, start, middle, end, drawData, timeTick)
 
-        drawData(numbers)
+        drawData(numbers, [PURPLE if x >= start and x < middle else YELLOW if x == middle
+        else DARK_BLUE if x > middle and x <= end else BLUE for x in range(len(numbers))])
         time.sleep(timeTick)
 
-    drawData(numbers)        
+    drawData(numbers, [BLUE for x in range(len(numbers))])
