@@ -13,7 +13,7 @@ from functions.countingSort import countingSort
 from colour import Color
 import random
 import customtkinter
-# TODO DENEME AMAÇLI
+
 # creating main window
 window = customtkinter.CTk()
 window.geometry("1200x500")
