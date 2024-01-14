@@ -63,8 +63,7 @@ def generate():
     numberLength = int(sliderNumberLength.get())
 
     numbers = []
-    for i in range(numberLength):
-        numbers.append(random.randrange(numberLength))
+    numbers = random.sample(range(numberLength), numberLength)
 
     drawData(numbers, ['#0CA8F6' for x in range(len(numbers))])
 
