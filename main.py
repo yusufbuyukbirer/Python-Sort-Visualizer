@@ -1,15 +1,7 @@
 # importing libraries
 from tkinter import *
 from tkinter import ttk
-from functions.insertionSort import insertionSort
-from functions.heapSort import heapSort
-from functions.mergeSort import mergeSort
-from functions.quickSort import quickSort
-from functions.selectionSort import selectionSort
-from functions.bubbleSort import bubbleSort
-from functions.combSort import combSort
-from functions.shellSort import shellSort
-from functions.countingSort import countingSort
+from functions.functions import bubbleSort, countingSort, insertionSort, heapSort, combSort, mergeSort, quickSort, selectionSort, shellSort
 from colour import Color
 import random
 import customtkinter
@@ -24,11 +16,13 @@ window.title("Sort Visualizer!")
 window.config(bg="#071a38")
 maxNumber = 101
 numbers = []
-# rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
+
+
+rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
 
 
 # functions
-def drawData(numbers, color):
+def drawData(numbers):
     canvas.delete("all")
 
     canvas_height = 478
@@ -49,7 +43,7 @@ def drawData(numbers, color):
         y1 = canvas_height
 
         # creating rectangles
-        canvas.create_rectangle(x0, y0, x1, y1, fill=color[i])
+        canvas.create_rectangle(x0, y0, x1, y1, fill=rectangle_colors[i])
 
         # writing top of the rectangles
         canvas.create_text(x0, y0, anchor="sw", text=str(numbers[i]), fill="white", font=("Comic Sans MS", 10))
@@ -65,7 +59,7 @@ def generate():
     numbers = []
     numbers = random.sample(range(numberLength), numberLength)
 
-    drawData(numbers, ['#0CA8F6' for x in range(len(numbers))])
+    drawData(numbers)
 
 
 # adjusting the algorithm speed
@@ -107,6 +101,10 @@ def sort():
         mergeSort(numbers, 0, len(numbers) - 1, drawData, timeTick)
 
 
+def pause():
+    pass
+
+
 # button, combobox
 btnGenerate = customtkinter.CTkButton(window,
                                       width=120,
@@ -129,6 +127,17 @@ btnSort = customtkinter.CTkButton(window,
                                   command=sort
                                   )
 
+btnPause = customtkinter.CTkButton(window,
+                                   width=120,
+                                   height=32,
+                                   border_width=1,
+                                   corner_radius=14,
+                                   text_color="white",
+                                   text_font=("Comic Sans MS", 10),
+                                   text="Pause",
+                                   command=pause
+                                   )
+
 comboBoxAlgorithm = ttk.Combobox(window,
                                  values=["Bubble Sort", "Insertion Sort", "Quick Sort", "Selection Sort", "Heap Sort",
                                          "Merge Sort", "Comb Sort",
@@ -145,6 +154,7 @@ comboBoxAlgorithm.place(x=55, y=140)
 comboBoxSpeed.place(x=55, y=195)
 btnGenerate.place(x=100, y=285)
 btnSort.place(x=100, y=330)
+btnPause.place(x=100, y=375)
 
 
 # slider
