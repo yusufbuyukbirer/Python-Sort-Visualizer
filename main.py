@@ -1,7 +1,8 @@
 # importing libraries
 from tkinter import *
 from tkinter import ttk
-from functions.functions import bubbleSort, countingSort, insertionSort, heapSort, combSort, mergeSort, quickSort, selectionSort, shellSort
+from functions.functions import bubbleSort, countingSort, insertionSort, heapSort, combSort, mergeSort, quickSort, \
+    selectionSort, shellSort
 from colour import Color
 import random
 import customtkinter
@@ -16,7 +17,6 @@ window.title("Sort Visualizer!")
 window.config(bg="#071a38")
 maxNumber = 101
 numbers = []
-
 
 rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
 
