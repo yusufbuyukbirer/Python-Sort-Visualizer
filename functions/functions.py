@@ -1,8 +1,7 @@
-from colors import *
 import time
 
 
-def bubbleSort(numbers, drawData, timeTick):
+def bubble_sort(numbers, drawData, timeTick):
     size = len(numbers)
     for i in range(size - 1):
         for j in range(size - i - 1):
@@ -13,7 +12,7 @@ def bubbleSort(numbers, drawData, timeTick):
     drawData(numbers)
 
 
-def countingSort(numbers, drawData, timeTick):
+def counting_sort(numbers, drawData, timeTick):
     n = max(numbers) + 1
     count = [0] * n
 
@@ -32,7 +31,7 @@ def countingSort(numbers, drawData, timeTick):
     drawData(numbers)
 
 
-def insertionSort(numbers, drawData, timeTick):
+def insertion_sort(numbers, drawData, timeTick):
     index = range(1, len(numbers))
     for i in index:
         sortNumber = numbers[i]
@@ -45,20 +44,20 @@ def insertionSort(numbers, drawData, timeTick):
     return numbers
 
 
-def getSpace(space):
+def get_space(space):
     space = (space * 10) // 13
     if space < 1:
         return 1
     return space
 
 
-def combSort(numbers, drawData, timeTick):
+def comb_sort(numbers, drawData, timeTick):
     n = len(numbers)
     space = n
     swap = True
 
     while space != 1 or swap == 1:
-        space = getSpace(space)
+        space = get_space(space)
         swap = False
 
         for i in range(n - space):
@@ -87,7 +86,7 @@ def heapify(numbers, n, i, drawData, timeTick):
         heapify(numbers, n, maxNumber, drawData, timeTick)
 
 
-def heapSort(numbers, drawData, timeTick):
+def heap_sort(numbers, drawData, timeTick):
     n = len(numbers)
 
     for i in range(n - 1, -1, -1):
@@ -102,7 +101,7 @@ def heapSort(numbers, drawData, timeTick):
     drawData(numbers)
 
 
-def num_partiton(numbers, start, end, drawData, timeTick):
+def num_partition(numbers, start, end, drawData, timeTick):
     i = start + 1
     pivot = numbers[start]
 
@@ -114,11 +113,11 @@ def num_partiton(numbers, start, end, drawData, timeTick):
     return i - 1
 
 
-def quickSort(numbers, start, end, drawData, timeTick):
+def quick_sort(numbers, start, end, drawData, timeTick):
     if start < end:
-        pivotSpot = num_partiton(numbers, start, end, drawData, timeTick)
-        quickSort(numbers, start, pivotSpot - 1, drawData, timeTick)
-        quickSort(numbers, pivotSpot + 1, end, drawData, timeTick)
+        pivotSpot = num_partition(numbers, start, end, drawData, timeTick)
+        quick_sort(numbers, start, pivotSpot - 1, drawData, timeTick)
+        quick_sort(numbers, pivotSpot + 1, end, drawData, timeTick)
 
         drawData(numbers)
         time.sleep(timeTick)
@@ -126,7 +125,7 @@ def quickSort(numbers, start, end, drawData, timeTick):
     drawData(numbers)
 
 
-def selectionSort(numbers, drawData, timeTick):
+def selection_sort(numbers, drawData, timeTick):
     for i in range(len(numbers) - 1):
         minimum = i
         for j in range(i + 1, len(numbers)):
@@ -164,11 +163,11 @@ def merge(numbers, start, middle, end, drawData, timeTick):
         start += 1
 
 
-def mergeSort(numbers, start, end, drawData, timeTick):
+def merge_sort(numbers, start, end, drawData, timeTick):
     if start < end:
         middle = int((start + end) / 2)
-        mergeSort(numbers, start, middle, drawData, timeTick)
-        mergeSort(numbers, middle + 1, end, drawData, timeTick)
+        merge_sort(numbers, start, middle, drawData, timeTick)
+        merge_sort(numbers, middle + 1, end, drawData, timeTick)
 
         merge(numbers, start, middle, end, drawData, timeTick)
 
@@ -178,7 +177,7 @@ def mergeSort(numbers, start, end, drawData, timeTick):
     drawData(numbers)
 
 
-def shellSort(numbers, drawData, timeTick):
+def shell_sort(numbers, drawData, timeTick):
     n = len(numbers)
     space = n // 2
 
