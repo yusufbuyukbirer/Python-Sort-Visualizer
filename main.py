@@ -139,9 +139,8 @@ btnPause = customtkinter.CTkButton(window,
                                    )
 
 comboBoxAlgorithm = ttk.Combobox(window,
-                                 values=["Bubble Sort", "Insertion Sort", "Quick Sort", "Selection Sort", "Heap Sort",
-                                         "Merge Sort", "Comb Sort",
-                                         "Counting Sort", "Shell Sort"],
+                                 values=["Bubble Sort", "Comb Sort", "Counting Sort", "Heap Sort", "Insertion Sort",
+                                         "Merge Sort", "Selection Sort", "Shell Sort", "Quick Sort"],
                                  width=30)
 comboBoxAlgorithm.current(0)
 
