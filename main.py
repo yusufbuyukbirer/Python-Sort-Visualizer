@@ -1,8 +1,8 @@
 # importing libraries
 from tkinter import *
 from tkinter import ttk
-from functions.functions import bubbleSort, countingSort, insertionSort, heapSort, combSort, mergeSort, quickSort, \
-    selectionSort, shellSort
+from functions.functions import bubble_sort, counting_sort, insertion_sort, heap_sort, comb_sort, merge_sort, \
+    quick_sort, selection_sort, shell_sort
 from colour import Color
 import random
 import customtkinter
@@ -82,23 +82,23 @@ def sort():
     timeTick = comboBox_Speed()
 
     if comboBoxAlgorithm.get() == 'Bubble Sort':
-        bubbleSort(numbers, drawData, timeTick)
+        bubble_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Insertion Sort':
-        insertionSort(numbers, drawData, timeTick)
+        insertion_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Selection Sort':
-        selectionSort(numbers, drawData, timeTick)
+        selection_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Heap Sort':
-        heapSort(numbers, drawData, timeTick)
+        heap_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Comb Sort':
-        combSort(numbers, drawData, timeTick)
+        comb_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Counting Sort':
-        countingSort(numbers, drawData, timeTick)
+        counting_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Shell Sort':
-        shellSort(numbers, drawData, timeTick)
+        shell_sort(numbers, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Quick Sort':
-        quickSort(numbers, 0, len(numbers) - 1, drawData, timeTick)
+        quick_sort(numbers, 0, len(numbers) - 1, drawData, timeTick)
     elif comboBoxAlgorithm.get() == 'Merge Sort':
-        mergeSort(numbers, 0, len(numbers) - 1, drawData, timeTick)
+        merge_sort(numbers, 0, len(numbers) - 1, drawData, timeTick)
 
 
 def pause():
