@@ -28,8 +28,8 @@ def drawData(numbers):
     canvas_height = 478
     canvas_width = 878
     x_width = canvas_width / (len(numbers) + 1)
-    offset = 2
-    spacing = 6
+    offset = 6
+    spacing = 2
 
     normalized_data = [i / max(numbers) for i in numbers]
 
