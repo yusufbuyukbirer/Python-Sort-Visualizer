@@ -95,9 +95,11 @@ class SortingVisualizer:
 
         self.combobox_speed = customtkinter.CTkComboBox(self.window,
                                                         values=["Very Slow", "Slow", "Medium", "Fast", "Super Fast"],
-                                                        width=200)
+                                                        font=("LDF Comic Sans", 15),
+                                                        dropdown_font=("LDF Comic Sans", 15),
+                                                        width=200, justify="center")
 
-        self.slider_number_length = customtkinter.CTkSlider(self.window, from_=10, to=100, height=22,
+        self.slider_number_length = customtkinter.CTkSlider(self.window, from_=10, to=100, height=22, width=220,
                                                             button_color="#1049a3", button_hover_color="#1f63cf",
                                                             number_of_steps=9)
 
@@ -108,15 +110,15 @@ class SortingVisualizer:
         self.btn_speed_label = customtkinter.CTkLabel(self.window, text="Speed", font=("LDF Comic Sans", 15))
         self.btn_slider_label = customtkinter.CTkLabel(self.window, text="Number Length", font=("LDF Comic Sans", 15))
 
-        self.combobox_sort.place(x=55, y=140)
-        self.combobox_speed.place(x=55, y=195)
-        self.btn_generate.place(x=100, y=285)
-        self.btn_sort.place(x=100, y=330)
-        self.btn_pause.place(x=100, y=375)
-        self.slider_number_length.place(x=80, y=250)
-        self.btn_sort_label.place(x=95, y=115)
-        self.btn_speed_label.place(x=100, y=170)
-        self.btn_slider_label.place(x=102, y=225)
+        self.combobox_sort.place(x=60, y=140)
+        self.combobox_speed.place(x=60, y=215)
+        self.btn_generate.place(x=60, y=325)
+        self.btn_sort.place(x=60, y=370)
+        self.btn_pause.place(x=60, y=415)
+        self.slider_number_length.place(x=50, y=290)
+        self.btn_sort_label.place(x=90, y=105)
+        self.btn_speed_label.place(x=130, y=180)
+        self.btn_slider_label.place(x=102, y=260)
 
     def run(self):
         self.window.mainloop()
