@@ -17,7 +17,7 @@ Sorting Visualizer is a Python-based graphical application that helps visualize 
 ## Installation & Usage
 
 ### Prerequisites
-Make sure you have Python (>=3.7) installed on your system.
+Make sure you have Python (>=3.7) and pip installed on your system.
 
 ### Step 1: Clone the Repository
 ```sh
