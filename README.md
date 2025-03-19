@@ -53,4 +53,6 @@ Sorting-Visualizer/
 │── README.md         # Project documentation
 ```
 
+## Things to fix
+Pause button isn't active for now.
 
