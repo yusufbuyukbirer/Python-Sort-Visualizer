@@ -1,214 +1,127 @@
-# importing libraries
-from tkinter import *
-from tkinter import ttk
-from functions.functions import bubble_sort, counting_sort, insertion_sort, heap_sort, comb_sort, merge_sort, \
-    quick_sort, selection_sort, shell_sort
+from functions.functions import *
 from colour import Color
 import random
 import customtkinter
 
-# creating main window
-window = customtkinter.CTk()
-window.geometry("1200x500")
-window.resizable(False, False)
-window.title("Sort Visualizer!")
 
-# variables
-window.config(bg="#071a38")
-maxNumber = 101
-numbers = []
+class SortingVisualizer:
+    def __init__(self):
+        self.window = customtkinter.CTk()
+        self.window.geometry("1200x600")
+        self.window.resizable(False, False)
+        self.window.title("Sorting Visualizer")
+        self.window.configure(fg_color="#071a38")
 
-rectangle_colors = list(Color("violet").range_to(Color("red"), maxNumber))
+        self.max_number = 101
+        self.numbers = []
+        self.rectangle_colors = list(Color("violet").range_to(Color("red"), self.max_number))
 
+        self.create_widgets()
 
-# functions
-def drawData(numbers):
-    canvas.delete("all")
+    def draw_data(self, numbers=None):
+        self.canvas.delete("all")
+        if numbers is not None:
+            self.numbers = numbers
+        if not self.numbers:
+            return
 
-    canvas_height = 478
-    canvas_width = 878
-    x_width = canvas_width / (len(numbers) + 1)
-    offset = 6
-    spacing = 2
+        canvas_height, canvas_width = 580, 878
+        x_width = canvas_width / (len(self.numbers) + 1)
+        offset, spacing = 6, 2
 
-    normalized_data = [i / max(numbers) for i in numbers]
+        normalized_data = [i / max(self.numbers) for i in self.numbers]
 
-    for i, height in enumerate(normalized_data):
-        # upper left
-        x0 = (i * x_width) + offset + spacing
-        y0 = canvas_height - (height * 420)
+        for i, height in enumerate(normalized_data):
+            x0 = (i * x_width) + offset + spacing
+            y0 = canvas_height - (height * 420)
 
-        # upper right
-        x1 = ((i + 1) * x_width) + offset
-        y1 = canvas_height
+            x1 = ((i + 1) * x_width) + offset
+            y1 = canvas_height
 
-        # creating rectangles
-        canvas.create_rectangle(x0, y0, x1, y1, fill=rectangle_colors[i])
+            self.canvas.create_rectangle(x0, y0, x1, y1, fill=self.rectangle_colors[i])
+            self.canvas.create_text(x0, y0, anchor="sw", text=str(self.numbers[i]), fill="white", font=("LDF Comic Sans", 10))
 
-        # writing top of the rectangles
-        canvas.create_text(x0, y0, anchor="sw", text=str(numbers[i]), fill="white", font=("Comic Sans MS", 10))
+        self.window.update_idletasks()
 
-    window.update_idletasks()
+    def generate(self):
+        number_length = int(self.slider_number_length.get())
+        self.numbers = random.sample(range(1, number_length + 1), number_length)
+        self.draw_data()
 
+    def get_speed(self):
+        speeds = {
+            "Very Slow": 0.5,
+            "Slow": 0.3,
+            "Medium": 0.1,
+            "Fast": 0.01,
+            "Super Fast": 0.001
+        }
+        return speeds.get(self.combobox_speed.get(), 0.1)
 
-# showing random number values in the form of rectangle
-def generate():
-    global numbers
-    numberLength = int(sliderNumberLength.get())
+    def sort(self):
+        time_tick = self.get_speed()
+        selected_algorithm = self.combobox_sort.get()
 
-    numbers = []
-    numbers = random.sample(range(numberLength), numberLength)
+        sorting_algorithms = {
+            "Bubble Sort": bubble_sort,
+            "Insertion Sort": insertion_sort,
+            "Selection Sort": selection_sort,
+            "Heap Sort": heap_sort,
+            "Comb Sort": comb_sort,
+            "Counting Sort": counting_sort,
+            "Shell Sort": shell_sort,
+            "Quick Sort": lambda numbers, draw_data, time_tick: quick_sort(numbers, 0, len(numbers) - 1, draw_data, time_tick),
+            "Merge Sort": lambda numbers, draw_data, time_tick: merge_sort(numbers, 0, len(numbers) - 1, draw_data, time_tick)
+        }
 
-    drawData(numbers)
+        if selected_algorithm in sorting_algorithms:
+            sorting_algorithms[selected_algorithm](self.numbers, self.draw_data, time_tick)
 
+    def create_widgets(self):
+        self.btn_generate = customtkinter.CTkButton(self.window, text="Generate", font=("LDF Comic Sans", 15),
+                                                    width=200, corner_radius=10, command=self.generate)
+        self.btn_sort = customtkinter.CTkButton(self.window, text="Sort", font=("LDF Comic Sans", 15),
+                                                width=200, corner_radius=10, command=self.sort)
+        self.btn_pause = customtkinter.CTkButton(self.window, text="Pause", font=("LDF Comic Sans", 15),
+                                                 width=200, corner_radius=10)
 
-# adjusting the algorithm speed
-def comboBox_Speed():
-    if comboBoxSpeed.get() == 'Very Slow':
-        return 0.5
-    elif comboBoxSpeed.get() == 'Slow':
-        return 0.3
-    elif comboBoxSpeed.get() == 'Medium':
-        return 0.1
-    elif comboBoxSpeed.get() == 'Fast':
-        return 0.01
-    else:
-        return 0.001
+        self.combobox_sort = customtkinter.CTkComboBox(self.window,
+                                                       values=["Bubble Sort", "Comb Sort", "Counting Sort", "Heap Sort",
+                                                               "Insertion Sort", "Merge Sort", "Selection Sort",
+                                                               "Shell Sort", "Quick Sort"],
+                                                       font=("LDF Comic Sans", 15),
+                                                       dropdown_font=("LDF Comic Sans", 15),
+                                                       width=200, justify="center")
 
+        self.combobox_speed = customtkinter.CTkComboBox(self.window,
+                                                        values=["Very Slow", "Slow", "Medium", "Fast", "Super Fast"],
+                                                        width=200)
 
-# choosing algorithm
-def sort():
-    global numbers
-    timeTick = comboBox_Speed()
+        self.slider_number_length = customtkinter.CTkSlider(self.window, from_=10, to=100, height=22,
+                                                            button_color="#1049a3", button_hover_color="#1f63cf",
+                                                            number_of_steps=9)
 
-    if comboBoxAlgorithm.get() == 'Bubble Sort':
-        bubble_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Insertion Sort':
-        insertion_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Selection Sort':
-        selection_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Heap Sort':
-        heap_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Comb Sort':
-        comb_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Counting Sort':
-        counting_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Shell Sort':
-        shell_sort(numbers, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Quick Sort':
-        quick_sort(numbers, 0, len(numbers) - 1, drawData, timeTick)
-    elif comboBoxAlgorithm.get() == 'Merge Sort':
-        merge_sort(numbers, 0, len(numbers) - 1, drawData, timeTick)
+        self.canvas = customtkinter.CTkCanvas(self.window, width=878, height=580, bg="black")
+        self.canvas.place(x=310, y=9.8)
 
+        self.btn_sort_label = customtkinter.CTkLabel(self.window, text="Choose an Algorithm", font=("LDF Comic Sans", 15))
+        self.btn_speed_label = customtkinter.CTkLabel(self.window, text="Speed", font=("LDF Comic Sans", 15))
+        self.btn_slider_label = customtkinter.CTkLabel(self.window, text="Number Length", font=("LDF Comic Sans", 15))
 
-def pause():
-    pass
+        self.combobox_sort.place(x=55, y=140)
+        self.combobox_speed.place(x=55, y=195)
+        self.btn_generate.place(x=100, y=285)
+        self.btn_sort.place(x=100, y=330)
+        self.btn_pause.place(x=100, y=375)
+        self.slider_number_length.place(x=80, y=250)
+        self.btn_sort_label.place(x=95, y=115)
+        self.btn_speed_label.place(x=100, y=170)
+        self.btn_slider_label.place(x=102, y=225)
 
-
-# button, combobox
-btnGenerate = customtkinter.CTkButton(window,
-                                      width=120,
-                                      height=32,
-                                      border_width=1,
-                                      corner_radius=14,
-                                      text_color="white",
-                                      text_font=("Comic Sans MS", 10),
-                                      text="Generate",
-                                      command=generate
-                                      )
-btnSort = customtkinter.CTkButton(window,
-                                  width=120,
-                                  height=32,
-                                  border_width=1,
-                                  corner_radius=14,
-                                  text_color="white",
-                                  text_font=("Comic Sans MS", 10),
-                                  text="Sort",
-                                  command=sort
-                                  )
-
-btnPause = customtkinter.CTkButton(window,
-                                   width=120,
-                                   height=32,
-                                   border_width=1,
-                                   corner_radius=14,
-                                   text_color="white",
-                                   text_font=("Comic Sans MS", 10),
-                                   text="Pause",
-                                   command=pause
-                                   )
-
-comboBoxAlgorithm = ttk.Combobox(window,
-                                 values=["Bubble Sort", "Comb Sort", "Counting Sort", "Heap Sort", "Insertion Sort",
-                                         "Merge Sort", "Selection Sort", "Shell Sort", "Quick Sort"],
-                                 width=30)
-comboBoxAlgorithm.current(0)
-
-comboBoxSpeed = ttk.Combobox(window,
-                             values=["Very Slow", "Slow", "Medium", "Fast", "Super Fast"],
-                             width=30)
-comboBoxSpeed.current(0)
-
-comboBoxAlgorithm.place(x=55, y=140)
-comboBoxSpeed.place(x=55, y=195)
-btnGenerate.place(x=100, y=285)
-btnSort.place(x=100, y=330)
-btnPause.place(x=100, y=375)
+    def run(self):
+        self.window.mainloop()
 
 
-# slider
-def sliderSayi(value):
-    print(value)
-
-
-sliderNumberLength = customtkinter.CTkSlider(window,
-                                             from_=10,
-                                             to=100,
-                                             height=22,
-                                             button_color="#1049a3",
-                                             button_hover_color="#1f63cf",
-                                             number_of_steps=9,
-                                             command=sliderSayi)
-
-# placing slider
-sliderNumberLength.place(x=80, y=250)
-
-# labels
-algorithmLabel = customtkinter.CTkLabel(window,
-                                        width=120,
-                                        height=18,
-                                        text="Choose the Algorithm",
-                                        text_color="white",
-                                        text_font=("Comic Sans MS", 10),
-                                        corner_radius=8)
-
-comboBoxSpeedLabel = customtkinter.CTkLabel(window,
-                                            width=120,
-                                            height=18,
-                                            text="Speed",
-                                            text_color="white",
-                                            text_font=("Comic Sans MS", 10),
-                                            corner_radius=8)
-
-sliderNumberLabel = customtkinter.CTkLabel(window,
-                                           width=120,
-                                           height=18,
-                                           text="Number Length",
-                                           text_color="white",
-                                           text_font=("Comic Sans MS", 10),
-                                           corner_radius=8)
-
-# placing labels
-algorithmLabel.place(x=95, y=115)
-comboBoxSpeedLabel.place(x=100, y=170)
-sliderNumberLabel.place(x=102, y=225)
-
-# sorting screen
-canvas = Canvas(window,
-                width=878,
-                height=478,
-                bg="black")
-canvas.place(x=310, y=9.8)
-
-# this is for running the program continously
-window.mainloop()
+if __name__ == "__main__":
+    app = SortingVisualizer()
+    app.run()
